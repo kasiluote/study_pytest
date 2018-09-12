@@ -1,0 +1,109 @@
+####Calling pytest through python -m pytest
+You can invoke testing through the Python interpreter from the command line
+```
+python -m pytest [...]
+```
+####Possible exit codes
+Running pytest can result in six different exit codes:
+```
+Exit code 0 All tests were collected and passed successfully
+Exit code 1 Tests were collected and run but some of the tests failed
+Exit code 2 Test execution was interrupted by the user
+Exit code 3 Internal error happened while executing tests
+Exit code 4 pytest command line usage error
+Exit code 5 No tests were collected
+```
+####Getting help on version, option names, environment variables
+```
+pytest --version # shows where pytest was imported from
+pytest --fixtures # show available builtin function arguments
+pytest -h | --help # show help on command line and config file options
+```
+####Stopping after the first (or N) failures
+```
+pytest -x # stop after first failure
+pytest --maxfail=2 # stop after two failures
+```
+####Specifying tests / selecting tests
+######Specifying tests / selecting tests
+```
+pytest test_mod.py
+```
+######Run tests in a directory
+```
+pytest testing/
+```
+######Run tests by keyword expressions
+```
+pytest -k "MyClass and not method"
+```
+To run a specific test within a module:
+```
+pytest test_mod.py::test_func
+```
+Another example specifying a test method in the command line:
+```
+pytest test_mod.py::TestClass::test_method
+```
+######Run tests by marker expressions
+```
+pytest -m slow
+```
+Will run all tests which are decorated with the @pytest.mark.slow decorator.
+######Run tests from packages
+```
+pytest --pyargs pkg.testing
+```
+This will import pkg.testing and use its filesystem location to find and run tests from
+####Modify python traceback printing
+####Detailed summary report
+####Dropping to PDB (Python Debugger) on failures
+####Dropping to PDB (Python Debugger) at the start of a test
+```
+pytest --trace
+```
+####Setting breakpoints
+####Using the builtin breakpoint function
+####Profiling test execution duration
+To get a list of the slowest 10 test durations:
+```
+pytest --durations=10
+```
+####Creating JUnitXML format files
+To create result files which can be read by Jenkins or other Continuous Integration servers, use this invocation:
+```
+pytest --junitxml=path
+```
+To set the name of the root test suite xml item, you can configure the junit_suite_name option in your config
+file:
+```
+[pytest]
+junit_suite_name = my_suite
+```
+#####record_property
+If you want to log additional information for a test, you can use the record_property fixture:
+```
+def test_function(record_property):
+    record_property("example_key",1)
+    assert True
+```
+This will add an extra property example_key="1" to the generated testcase tag:
+#####record_xml_attribute
+#####LogXML: add_global_property
+####Creating resultlog format files
+####Sending test report to online pastebin service
+####Disabling plugins
+####Calling pytest from Python code
+You can invoke pytest from Python code directly:
+```
+pytest.main
+```
+this acts as if you would call “pytest” from the command line. It will not raise SystemExit but return the exitcode
+instead. You can pass in options and arguments:
+```
+pytest.main(['-x','mytestdir'])
+```
+Note: Calling pytest.main() will result in importing your tests and any modules that they import. Due to the
+caching mechanism of python’s import system, making subsequent calls to pytest.main() from the same process
+will not reflect changes to those files between the calls. For this reason, making multiple calls to pytest.main()
+from the same process (in order to re-run tests, for example) is not recommended.
