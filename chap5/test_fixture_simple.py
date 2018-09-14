@@ -33,7 +33,7 @@ available function arguments.
 
 pytest --fixtures test_simplefactory.py
 
---------------- fixtures defined from chap4.test_fixture_simple ---------------
+--------------- fixtures defined from chap5.test_fixture_simple ---------------
 func_simple
 
     :return: sys.path contains string 'testpath' and will be popped in the following test_func.

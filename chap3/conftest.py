@@ -1,7 +1,5 @@
-#Defining your own assertion comparison
-from chap3.test_foocompare import Foo
-def pytest_assertrepr_compare(op,left,right):
-    if isinstance(left,Foo) and isinstance(right,Foo) and op == "==":
-        return ['Comparing Foo instance:',
-                '    vals:  %s  != %s ' % (left.val, right.val)]
-
+def pytest_collection_modifyitems(session,config,items):
+    for item in items:
+        for marker in item.iter_markers(name='test_id'):
+            test_id = marker.args[0]
+            item.user_properties.append(("test_id",test_id))
