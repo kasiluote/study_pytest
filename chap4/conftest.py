@@ -115,3 +115,18 @@ def smtp_connection(request):
     print("finalizing %s" % smtp_connection)
     smtp_connection.close()
 
+import tempfile
+import os
+
+@pytest.fixture
+def cleandir():
+    newpath = tempfile.mkdtemp()
+    os.chdir(newpath)
+
+@pytest.fixture
+def usename():
+    return 'username'
+
+@pytest.fixture
+def other_username(username):
+    return 'other-' + username
