@@ -1,0 +1,1 @@
+# Temporary directories and files
